@@ -1,0 +1,183 @@
+aid: vimeo-ott
+url: https://raw.githubusercontent.com/api-evangelist/vimeo-ott/refs/heads/main/apis.yml
+name: Vimeo OTT
+kind: company
+description: Vimeo OTT (formerly VHX) is a subscription video / over-the-top (OTT)
+  platform for launching branded SVOD, TVOD, and live streaming services across web,
+  mobile, and connected-TV apps. Its documented REST API at api.vhx.tv lets media
+  companies programmatically manage customers, products (subscription, rental, and
+  purchase access agreements), videos, and collections (categories, series, seasons,
+  movies, playlists), plus watchlists, player authorizations, comments, live events,
+  and analytics. The API is publicly documented at dev.vhx.tv and uses HTTP Basic
+  authentication with an API key generated from the Vimeo OTT CMS; the platform
+  itself is a paid product (Starter and Enterprise plans).
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- OTT
+- Video
+- SVOD
+- Streaming
+- Media
+- Subscriptions
+- VHX
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: vimeo-ott:vimeo-ott-customers-api
+  name: Vimeo OTT Customers API
+  tags:
+  - Customers
+  - Subscribers
+  - Watchlist
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Create, retrieve, list, and update customers (subscribers), grant and
+    revoke per-product access, and manage each customer's watchlist and in-progress
+    "watching" list. Customer-scoped requests are made with the VHX-Customer and
+    VHX-Client-IP headers.
+- aid: vimeo-ott:vimeo-ott-products-api
+  name: Vimeo OTT Products API
+  tags:
+  - Products
+  - Access
+  - Pricing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Retrieve and list products - the access agreements (subscription,
+    rental, or purchase) that bundle videos and collections - and fetch a product's
+    prices across multiple currencies.
+- aid: vimeo-ott:vimeo-ott-videos-api
+  name: Vimeo OTT Videos API
+  tags:
+  - Videos
+  - Files
+  - Content
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Create, retrieve, list, update, and delete videos, and access the
+    playable adaptive-streaming file URLs for a video. Videos are the transcoded
+    content items surfaced through the OTT storefront and player.
+- aid: vimeo-ott:vimeo-ott-collections-api
+  name: Vimeo OTT Collections API
+  tags:
+  - Collections
+  - Series
+  - Playlists
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Create, retrieve, list, and update collections - categories, series,
+    seasons, movies, and playlists - and manage their items, including adding,
+    removing, and repositioning videos and nested collections, plus reordering the
+    collection itself.
+- aid: vimeo-ott:vimeo-ott-authorizations-api
+  name: Vimeo OTT Authorizations API
+  tags:
+  - Authorizations
+  - Player
+  - Embed
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/player/
+    type: Documentation
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Generate short-lived authorization tokens that grant a specific
+    customer access to an embeddable video player, with configurable session token
+    expiration.
+- aid: vimeo-ott:vimeo-ott-analytics-api
+  name: Vimeo OTT Analytics API
+  tags:
+  - Analytics
+  - Reporting
+  - Metrics
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://dev.vhx.tv/docs/api/
+  baseURL: https://api.vhx.tv
+  properties:
+  - url: https://dev.vhx.tv/docs/api/
+    type: Documentation
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+  - url: openapi/vimeo-ott-openapi.yml
+    type: OpenAPI
+  - url: collections/vimeo-ott.postman_collection.json
+    type: PostmanCollection
+  - url: collections/vimeo-ott.opencollection.json
+    type: OpenCollection
+  description: Retrieve performance reports for an OTT service, including traffic,
+    income, units sold, subscribers, churn, and per-video metrics.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/vimeo
+- type: Website
+  url: https://vimeo.com/ott
+- type: Documentation
+  url: https://dev.vhx.tv/docs/api/
+- type: GitHubOrganization
+  url: https://github.com/vhx
+- type: Plans
+  url: plans/vimeo-ott-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/vimeo-ott-rate-limits.yml
+- type: FinOps
+  url: finops/vimeo-ott-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

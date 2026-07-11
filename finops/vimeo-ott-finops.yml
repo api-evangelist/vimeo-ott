@@ -1,0 +1,102 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Vimeo OTT
+providerId: vimeo-ott
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- OTT
+- Video
+- SVOD
+- Streaming
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Vimeo OTT (formerly VHX) spend. The REST API at api.vhx.tv is a
+  management surface bundled with a paid Vimeo OTT account and carries no separate
+  per-call fee, so API cost is not the primary spend driver. Spend is driven by the
+  OTT plan model. On Starter (web-only) there is no upfront platform fee - Vimeo
+  takes a $1 per-subscriber monthly fee plus a 10% service fee on one-time (TVOD)
+  purchases, so cost scales directly with active subscribers and transaction
+  volume. Enterprise is a custom monthly or yearly commitment with volume-based
+  discounts and included bandwidth (e.g. 60TB/month) and upload hours (e.g. 200/month);
+  overage on bandwidth and ingest, plus payment-processing fees where Vimeo
+  processes payments, are the variable components.
+notes: >-
+  Per-unit rates confirmed from vimeo.com/ott/pricing are $1/subscriber/month and
+  10% on one-time purchases (Starter). Enterprise is custom-quoted. Third-party
+  sources cite an additional payment-processing fee (about 2.5% + $0.30 per
+  transaction) when Vimeo processes payment; this is not on the official pricing
+  page and is flagged as unconfirmed. Reconcile with a current Vimeo quote.
+sources:
+- https://vimeo.com/ott
+- https://vimeo.com/ott/pricing
+- https://dev.vhx.tv/docs/api/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Vimeo
+serviceCategory: Media and Streaming
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Vimeo OTT
+  ServiceCategory: Media and Streaming
+  ProviderName: Vimeo
+  PublisherName: Vimeo
+  InvoiceIssuerName: Vimeo
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: active_subscribers
+  description: Active subscribers billed at $1 per subscriber per month on the Starter plan.
+  unit: subscribers
+  aggregation: sum
+  dimensions:
+  - account
+  - product
+- name: transaction_fees
+  description: Service fee on one-time (TVOD) purchases - 10% of each purchase on Starter.
+  unit: usd
+  aggregation: sum
+  dimensions:
+  - account
+  - product
+- name: bandwidth
+  description: Media-delivery bandwidth consumed; included up to a plan allowance (e.g. 60TB/month on Enterprise), with overage beyond it.
+  unit: bytes
+  aggregation: sum
+  dimensions:
+  - account
+- name: upload_hours
+  description: Content ingest / upload hours; included up to a plan allowance (e.g. 200 hours/month on Enterprise).
+  unit: hours
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track active subscribers, transaction volume, bandwidth, and upload hours per product so spend maps to the revenue it supports.
+- name: Allocation
+  description: Name products and collections per title or content line so per-subscriber and transaction fees map to internal cost centers.
+- name: Optimization
+  description: On Starter, cost scales with subscribers and transactions, so churn reduction and pricing are the levers; on Enterprise, negotiate volume discounts and right-size bandwidth and upload allowances to avoid overage.
+- name: Accountability
+  description: Assign an owner to each OTT service; review monthly subscriber, transaction, and bandwidth figures against the plan agreement.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

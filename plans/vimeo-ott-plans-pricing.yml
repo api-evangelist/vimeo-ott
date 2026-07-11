@@ -1,0 +1,126 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Vimeo OTT
+providerId: vimeo-ott
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- OTT
+- Video
+- SVOD
+- Streaming
+- Subscriptions
+- Plans
+description: >-
+  Vimeo OTT (formerly VHX) is sold as a paid platform, not as a standalone
+  metered API. The REST API at api.vhx.tv is a management surface included with a
+  Vimeo OTT account; there is no separate per-call API fee. Vimeo OTT publishes a
+  Starter plan and an Enterprise plan on its pricing page. Starter is web-only
+  with no upfront platform fee - Vimeo instead takes a per-subscriber fee plus a
+  service fee on one-time (transaction) purchases, so "we only make money when
+  you make money". Enterprise is a custom monthly or yearly agreement that adds
+  mobile and connected-TV apps, higher bandwidth and upload allowances, AVOD/FVOD
+  and live pay-per-view monetization, SSO, SLAs, and dedicated support, with
+  volume-based discounts.
+notes: >-
+  Confirmed from the official pricing page (vimeo.com/ott/pricing): Starter charges
+  $1 per subscriber per month and a 10% fee on one-time purchases; Enterprise is
+  custom-quoted (monthly or yearly, volume discounts) and includes 60TB bandwidth,
+  200 upload hours, and full HD/1080p. Some third-party pricing write-ups cite an
+  additional payment-processing fee (approximately 2.5% + $0.30 per transaction)
+  when Vimeo processes the payment, and reference a mid-tier "Growth" plan; those
+  figures are NOT stated on the official pricing page as of the review date and are
+  flagged here as unconfirmed. Verify all rates directly with Vimeo before relying
+  on them.
+sources:
+- https://vimeo.com/ott
+- https://vimeo.com/ott/pricing
+- https://dev.vhx.tv/docs/api/
+plans:
+- id: vimeo-ott-starter
+  name: Starter
+  type: usage
+  description: >-
+    Web-only OTT service with no upfront platform fee. Supports subscriptions
+    (SVOD), one-time transactions (TVOD), and free trials. Vimeo earns a
+    per-subscriber fee plus a service fee on one-time purchases. Includes the
+    documented REST API at api.vhx.tv.
+  entries:
+  - label: Per Subscriber Fee
+    name: per_subscriber
+    type: usage
+    metric: subscribers
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $1.00 per subscriber per month
+    userMultiplied: true
+  - label: One-Time Purchase Service Fee
+    name: transaction_fee
+    type: usage
+    metric: transactions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 10% of each one-time (TVOD) purchase
+    userMultiplied: false
+  elements:
+  - name: Web Storefront and Player
+  - name: SVOD Subscriptions
+  - name: TVOD Transactions
+  - name: Free Trials
+  - name: REST API (api.vhx.tv)
+  - name: No Upfront Platform Fee
+- id: vimeo-ott-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom monthly or yearly agreement for larger media companies. Adds native
+    apps across iOS, Android, Apple TV, Android TV, Roku, Amazon Fire, Xbox, and
+    smart TVs (Tizen, LG, Vizio); AVOD, FVOD, and live pay-per-view monetization;
+    SSO; SLAs; and dedicated support. Volume-based discounts available.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: custom - contact sales (volume-based discounts)
+    userMultiplied: false
+  - label: Included Bandwidth
+    name: bandwidth
+    type: quota
+    metric: bytes
+    limit: 60000
+    timeFrame: month
+    geo: global
+    unit: 1073741824
+    price: included in agreement
+    userMultiplied: false
+  - label: Included Upload Hours
+    name: upload_hours
+    type: quota
+    metric: hours
+    limit: 200
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in agreement
+    userMultiplied: false
+  elements:
+  - name: Web and Native Apps (Mobile and Connected TV)
+  - name: SVOD / TVOD / AVOD / FVOD / Live PPV
+  - name: Single Sign-On (SSO)
+  - name: SLAs and Dedicated Support
+  - name: Full HD / 1080p
+  - name: REST API (api.vhx.tv)
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

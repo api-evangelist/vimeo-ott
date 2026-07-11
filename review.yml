@@ -1,0 +1,119 @@
+aid: vimeo-ott
+name: Vimeo OTT
+review:
+  question: Does Vimeo OTT expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. The Vimeo OTT (VHX) public API at
+    api.vhx.tv is request/response REST over HTTPS with JSON (HAL) responses.
+    There is no documented server-push transport (WebSocket or SSE) on Vimeo
+    OTT's own management API to model. Real-time video delivery to end users is
+    handled by the Vimeo OTT adaptive-streaming player over HLS/DASH, which is a
+    media-delivery transport rather than an application API surface, and is out
+    of scope for an AsyncAPI document.
+findings:
+  summary: |
+    Vimeo OTT (formerly VHX) does not publish a documented public WebSocket API.
+    The public developer API at https://api.vhx.tv is a pure request/response
+    REST API over HTTPS. It is documented openly at dev.vhx.tv and authenticated
+    with HTTP Basic Auth (API key as username, blank password); API keys are
+    generated on the Platforms page of the Vimeo OTT CMS. Responses are JSON
+    using the HAL hypermedia convention (_links, _embedded). Resources include
+    customers, products, videos, collections, watchlists, authorizations,
+    comments, live events, and analytics. No realtime, bidirectional, or
+    streaming WebSocket (ws:// or wss://) endpoint is documented on Vimeo OTT's
+    own API. Video playback itself is delivered by the OTT player via adaptive
+    HTTP streaming (HLS/DASH), not a WebSocket API.
+  accessModel: |
+    The API reference is publicly readable, but useful API access is gated
+    behind a paid Vimeo OTT account (Starter or Enterprise plan). There is no
+    free, standalone, self-serve API product - the API manages an OTT service
+    you operate on the platform. API keys are issued from within the OTT CMS.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.vhx.tv
+      documented: true
+      note: All documented Vimeo OTT (VHX) API resources are HTTPS REST with JSON (HAL) responses.
+    - protocol: HLS/DASH
+      scheme: https
+      documented: true
+      note: End-user video playback is adaptive HTTP streaming via the OTT player, not an application API. Out of AsyncAPI scope.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Vimeo OTT / VHX API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.vhx.tv/customers
+    - GET    https://api.vhx.tv/customers
+    - GET    https://api.vhx.tv/customers/:id
+    - PUT    https://api.vhx.tv/customers/:id
+    - PUT    https://api.vhx.tv/customers/:id/products
+    - DELETE https://api.vhx.tv/customers/:id/products
+    - GET    https://api.vhx.tv/customers/:id/watchlist
+    - PUT    https://api.vhx.tv/customers/:id/watchlist
+    - DELETE https://api.vhx.tv/customers/:id/watchlist
+    - GET    https://api.vhx.tv/customers/:id/watching
+    - GET    https://api.vhx.tv/products
+    - GET    https://api.vhx.tv/products/:id
+    - GET    https://api.vhx.tv/products/:id/prices
+    - POST   https://api.vhx.tv/videos
+    - GET    https://api.vhx.tv/videos
+    - GET    https://api.vhx.tv/videos/:id
+    - PUT    https://api.vhx.tv/videos/:id
+    - DELETE https://api.vhx.tv/videos/:id
+    - GET    https://api.vhx.tv/videos/:id/files
+    - POST   https://api.vhx.tv/collections
+    - GET    https://api.vhx.tv/collections
+    - GET    https://api.vhx.tv/collections/:id
+    - PUT    https://api.vhx.tv/collections/:id
+    - PUT    https://api.vhx.tv/collections/:id/update_position
+    - GET    https://api.vhx.tv/collections/:id/items
+    - PUT    https://api.vhx.tv/collections/:id/items
+    - PUT    https://api.vhx.tv/collections/:id/items/:item_id
+    - DELETE https://api.vhx.tv/collections/:id/items
+    - GET    https://api.vhx.tv/browse
+    - POST   https://api.vhx.tv/authorizations
+    - POST   https://api.vhx.tv/comments
+    - GET    https://api.vhx.tv/comments
+    - GET    https://api.vhx.tv/comments/:id
+    - POST   https://api.vhx.tv/comments/:id/report
+    - GET    https://api.vhx.tv/live_events
+    - GET    https://api.vhx.tv/live_events/:id
+    - GET    https://api.vhx.tv/analytics
+  endpointsModeled: |
+    Request and response bodies (field-level schemas) in the bundled OpenAPI and
+    collection artifacts are modeled from the documented examples. HTTP methods
+    and paths above are confirmed from the live public reference at dev.vhx.tv.
+sources:
+  - url: https://dev.vhx.tv/
+    type: Documentation
+    note: Vimeo OTT (VHX) developer landing page.
+  - url: https://dev.vhx.tv/docs/api/
+    type: APIReference
+    note: Full REST API reference; base https://api.vhx.tv, HTTP Basic Auth with API key, JSON/HAL. No WebSocket documented.
+  - url: https://dev.vhx.tv/api/
+    type: Documentation
+    note: API overview and tutorials; API keys created on the CMS Platforms page.
+  - url: https://dev.vhx.tv/player/
+    type: Documentation
+    note: Embeddable player; end-user playback via adaptive HTTP streaming, not a WebSocket API.
+  - url: https://github.com/vhx/api-documentation
+    type: SourceCode
+    note: Static HTML API documentation source; no machine-readable OpenAPI/Swagger spec present.
+  - url: https://vimeo.com/ott/pricing
+    type: Plans
+    note: Vimeo OTT plans - Starter (per-subscriber + transaction fees) and Enterprise (custom).
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Vimeo OTT's own public API is
+    request/response REST (api.vhx.tv) with JSON/HAL responses. No AsyncAPI
+    document was created because there is no server-push transport (WebSocket or
+    SSE) on Vimeo OTT's own API to model; video delivery to end users happens
+    via the OTT player's adaptive HTTP streaming, which carries its own media
+    transport and is out of scope.

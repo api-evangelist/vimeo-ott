@@ -1,0 +1,320 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{apiKey}}",
+      "password": ""
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Customers", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List customers", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.vhx.tv/customers" },
+          "docs": "Lists all customers (subscribers). Paginated, 50 per page by default."
+        },
+        {
+          "info": { "name": "Create a customer", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/customers",
+            "body": { "type": "json", "data": "{\"name\":\"Jane Viewer\",\"email\":\"jane@example.com\",\"product\":\"https://api.vhx.tv/products/1\"}" }
+          },
+          "docs": "Creates a new customer. Name, email, and a product reference are required. Rate limited to roughly 5 requests per second."
+        },
+        {
+          "info": { "name": "Retrieve a customer", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Retrieves a single customer by ID."
+        },
+        {
+          "info": { "name": "Update a customer", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }],
+            "body": { "type": "json", "data": "{\"name\":\"Jane V.\"}" }
+          },
+          "docs": "Updates a customer's information."
+        },
+        {
+          "info": { "name": "Grant product access", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id/products",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }],
+            "body": { "type": "json", "data": "{\"product\":\"https://api.vhx.tv/products/1\"}" }
+          },
+          "docs": "Grants the customer access to a product."
+        },
+        {
+          "info": { "name": "Revoke product access", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/customers/:id/products",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The customer ID." },
+              { "name": "product", "value": "https://api.vhx.tv/products/1", "type": "query", "description": "The product ID or href to revoke." }
+            ]
+          },
+          "docs": "Revokes the customer's access to a product."
+        },
+        {
+          "info": { "name": "Retrieve watchlist", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Retrieves the items a customer has saved to their watchlist."
+        },
+        {
+          "info": { "name": "Add to watchlist", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }],
+            "body": { "type": "json", "data": "{\"item\":\"https://api.vhx.tv/videos/1\"}" }
+          },
+          "docs": "Adds a video or collection to the customer's watchlist."
+        },
+        {
+          "info": { "name": "Remove from watchlist", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The customer ID." },
+              { "name": "item", "value": "https://api.vhx.tv/videos/1", "type": "query", "description": "The item to remove." }
+            ]
+          },
+          "docs": "Removes an item from the customer's watchlist."
+        },
+        {
+          "info": { "name": "Retrieve in-progress videos", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id/watching",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Retrieves the videos a customer has started but not finished, with playback position."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Products", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List products", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.vhx.tv/products" },
+          "docs": "Lists all products. Paginated, 50 per page by default."
+        },
+        {
+          "info": { "name": "Retrieve a product", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/products/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The product ID." }]
+          },
+          "docs": "Retrieves a single product by ID."
+        },
+        {
+          "info": { "name": "Retrieve product prices", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/products/:id/prices",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The product ID." }]
+          },
+          "docs": "Retrieves a product's prices across supported currencies."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Videos", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List videos", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.vhx.tv/videos" },
+          "docs": "Lists all videos. Paginated, 50 per page by default."
+        },
+        {
+          "info": { "name": "Create a video", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/videos",
+            "body": { "type": "json", "data": "{\"title\":\"Episode 1\",\"description\":\"Pilot episode.\"}" }
+          },
+          "docs": "Creates a new video record."
+        },
+        {
+          "info": { "name": "Retrieve a video", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The video ID." }]
+          },
+          "docs": "Retrieves a single video by ID."
+        },
+        {
+          "info": { "name": "Update a video", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The video ID." }],
+            "body": { "type": "json", "data": "{\"title\":\"Episode 1 (Remastered)\"}" }
+          },
+          "docs": "Updates a video's metadata."
+        },
+        {
+          "info": { "name": "Delete a video", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The video ID." }]
+          },
+          "docs": "Deletes a video. Deletion is processed asynchronously."
+        },
+        {
+          "info": { "name": "Retrieve video files", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/videos/:id/files",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The video ID." }]
+          },
+          "docs": "Retrieves the playable adaptive-streaming file URLs for a video."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Collections", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List collections", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.vhx.tv/collections" },
+          "docs": "Lists all collections. Paginated, 50 per page by default."
+        },
+        {
+          "info": { "name": "Create a collection", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/collections",
+            "body": { "type": "json", "data": "{\"name\":\"Season 1\",\"type\":\"season\"}" }
+          },
+          "docs": "Creates a collection of type category, series, season, movie, or playlist."
+        },
+        {
+          "info": { "name": "Retrieve a collection", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/collections/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The collection ID." }]
+          },
+          "docs": "Retrieves a single collection by ID."
+        },
+        {
+          "info": { "name": "Update a collection", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The collection ID." }],
+            "body": { "type": "json", "data": "{\"name\":\"Season One\"}" }
+          },
+          "docs": "Updates a collection's metadata."
+        },
+        {
+          "info": { "name": "Reorder a collection", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/update_position",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The collection ID." }],
+            "body": { "type": "json", "data": "{\"position\":0}" }
+          },
+          "docs": "Updates the position of the collection relative to its siblings."
+        },
+        {
+          "info": { "name": "List collection items", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The collection ID." }]
+          },
+          "docs": "Lists the videos and nested collections that belong to a collection."
+        },
+        {
+          "info": { "name": "Add a collection item", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The collection ID." }],
+            "body": { "type": "json", "data": "{\"item\":\"https://api.vhx.tv/videos/1\"}" }
+          },
+          "docs": "Adds a video or nested collection to the collection."
+        },
+        {
+          "info": { "name": "Reposition a collection item", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/items/:item_id",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The collection ID." },
+              { "name": "item_id", "value": "", "type": "path", "description": "The item ID within the collection." }
+            ],
+            "body": { "type": "json", "data": "{\"position\":2}" }
+          },
+          "docs": "Updates the position of an item within the collection."
+        },
+        {
+          "info": { "name": "Remove a collection item", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The collection ID." },
+              { "name": "item", "value": "https://api.vhx.tv/videos/1", "type": "query", "description": "The item to remove." }
+            ]
+          },
+          "docs": "Removes a video or nested collection from the collection."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Authorizations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a player authorization", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/authorizations",
+            "body": { "type": "json", "data": "{\"customer\":\"https://api.vhx.tv/customers/1\",\"video\":\"https://api.vhx.tv/videos/1\",\"ttl\":3600}" }
+          },
+          "docs": "Generates a short-lived authorization token granting a customer access to an embeddable player."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Analytics", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve analytics reports", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/analytics",
+            "params": [{ "name": "report", "value": "subscribers", "type": "query", "description": "The report type." }]
+          },
+          "docs": "Retrieves performance reports - traffic, income, units, subscribers, churn, and per-video metrics."
+        }
+      ]
+    }
+  ]
+}

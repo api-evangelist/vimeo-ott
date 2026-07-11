@@ -1,0 +1,1008 @@
+openapi: 3.0.3
+info:
+  title: Vimeo OTT API
+  description: >-
+    The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a
+    branded subscription video / over-the-top (OTT) service. It lets media
+    companies manage customers (subscribers), products (subscription, rental, and
+    purchase access agreements), videos, and collections (categories, series,
+    seasons, movies, playlists), plus watchlists, embeddable-player
+    authorizations, comments, live events, and analytics. All access is over
+    HTTPS; requests and responses are JSON using the HAL hypermedia convention
+    (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API
+    key supplied as the username and a blank password; keys are generated on the
+    Platforms page of the Vimeo OTT CMS.
+
+    Scope note - HTTP methods and paths are confirmed from the public reference at
+    dev.vhx.tv. Request and response field-level schemas below are modeled from
+    the documented examples and generalized where the reference documents fields
+    by example rather than as a formal schema.
+  version: '1.0'
+  contact:
+    name: Vimeo OTT Developers
+    url: https://dev.vhx.tv/docs/api/
+servers:
+  - url: https://api.vhx.tv
+    description: Vimeo OTT (VHX) API
+security:
+  - basicAuth: []
+tags:
+  - name: Customers
+    description: Subscribers, their product access, watchlists, and in-progress viewing.
+  - name: Products
+    description: Access agreements (subscription, rental, purchase) and their prices.
+  - name: Videos
+    description: Transcoded content items and their playable file URLs.
+  - name: Collections
+    description: Categories, series, seasons, movies, and playlists, and their items.
+  - name: Authorizations
+    description: Short-lived tokens granting a customer access to the embeddable player.
+  - name: Analytics
+    description: Performance reports for the OTT service.
+paths:
+  /customers:
+    get:
+      operationId: listCustomers
+      tags: [Customers]
+      summary: List customers
+      description: Lists all customers (subscribers). Paginated, 50 per page by default.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - name: email
+          in: query
+          description: Filter customers by email address.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A paginated list of customers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCustomer
+      tags: [Customers]
+      summary: Create a customer
+      description: Creates a new customer. Name, email, and a product reference are required. Rate limited to roughly 5 requests per second.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCreate'
+      responses:
+        '201':
+          description: The created customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /customers/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getCustomer
+      tags: [Customers]
+      summary: Retrieve a customer
+      description: Retrieves a single customer by ID.
+      responses:
+        '200':
+          description: The requested customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCustomer
+      tags: [Customers]
+      summary: Update a customer
+      description: Updates a customer's information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdate'
+      responses:
+        '200':
+          description: The updated customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /customers/{id}/products:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    put:
+      operationId: addCustomerProduct
+      tags: [Customers]
+      summary: Grant product access
+      description: Grants the customer access to a product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: string
+                  description: The product ID or href to grant access to.
+              required: [product]
+      responses:
+        '200':
+          description: Product access granted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: removeCustomerProduct
+      tags: [Customers]
+      summary: Revoke product access
+      description: Revokes the customer's access to a product.
+      parameters:
+        - name: product
+          in: query
+          required: true
+          description: The product ID or href to revoke.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Product access revoked.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /customers/{id}/watchlist:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getCustomerWatchlist
+      tags: [Customers]
+      summary: Retrieve a customer's watchlist
+      description: Retrieves the items a customer has saved to their watchlist.
+      responses:
+        '200':
+          description: The customer's watchlist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: addToWatchlist
+      tags: [Customers]
+      summary: Add to watchlist
+      description: Adds a video or collection to the customer's watchlist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                  description: The video or collection ID or href to add.
+              required: [item]
+      responses:
+        '200':
+          description: Item added to watchlist.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: removeFromWatchlist
+      tags: [Customers]
+      summary: Remove from watchlist
+      description: Removes an item from the customer's watchlist.
+      parameters:
+        - name: item
+          in: query
+          required: true
+          description: The video or collection ID or href to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Item removed from watchlist.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /customers/{id}/watching:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getCustomerWatching
+      tags: [Customers]
+      summary: Retrieve in-progress videos
+      description: Retrieves the videos a customer has started but not finished, with playback position.
+      responses:
+        '200':
+          description: The customer's in-progress videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /products:
+    get:
+      operationId: listProducts
+      tags: [Products]
+      summary: List products
+      description: Lists all products. Paginated, 50 per page by default.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A paginated list of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /products/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getProduct
+      tags: [Products]
+      summary: Retrieve a product
+      description: Retrieves a single product by ID.
+      responses:
+        '200':
+          description: The requested product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /products/{id}/prices:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getProductPrices
+      tags: [Products]
+      summary: Retrieve product prices
+      description: Retrieves a product's prices across supported currencies.
+      responses:
+        '200':
+          description: The product's prices.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Price'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos:
+    get:
+      operationId: listVideos
+      tags: [Videos]
+      summary: List videos
+      description: Lists all videos. Paginated, 50 per page by default.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A paginated list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVideo
+      tags: [Videos]
+      summary: Create a video
+      description: Creates a new video record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoCreate'
+      responses:
+        '201':
+          description: The created video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /videos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getVideo
+      tags: [Videos]
+      summary: Retrieve a video
+      description: Retrieves a single video by ID.
+      responses:
+        '200':
+          description: The requested video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateVideo
+      tags: [Videos]
+      summary: Update a video
+      description: Updates a video's metadata.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoCreate'
+      responses:
+        '200':
+          description: The updated video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteVideo
+      tags: [Videos]
+      summary: Delete a video
+      description: Deletes a video. Deletion is processed asynchronously.
+      responses:
+        '202':
+          description: Deletion accepted and processing asynchronously.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{id}/files:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getVideoFiles
+      tags: [Videos]
+      summary: Retrieve video files
+      description: Retrieves the playable adaptive-streaming file URLs for a video.
+      responses:
+        '200':
+          description: The video's playable files.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VideoFile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /collections:
+    get:
+      operationId: listCollections
+      tags: [Collections]
+      summary: List collections
+      description: Lists all collections. Paginated, 50 per page by default.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A paginated list of collections.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCollection
+      tags: [Collections]
+      summary: Create a collection
+      description: Creates a collection of type category, series, season, movie, or playlist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionCreate'
+      responses:
+        '201':
+          description: The created collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /collections/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: getCollection
+      tags: [Collections]
+      summary: Retrieve a collection
+      description: Retrieves a single collection by ID.
+      responses:
+        '200':
+          description: The requested collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCollection
+      tags: [Collections]
+      summary: Update a collection
+      description: Updates a collection's metadata.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionCreate'
+      responses:
+        '200':
+          description: The updated collection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /collections/{id}/update_position:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    put:
+      operationId: updateCollectionPosition
+      tags: [Collections]
+      summary: Reorder a collection
+      description: Updates the position of the collection relative to its siblings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                position:
+                  type: integer
+                  description: The new zero-based position.
+              required: [position]
+      responses:
+        '200':
+          description: Collection reordered.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /collections/{id}/items:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: listCollectionItems
+      tags: [Collections]
+      summary: List collection items
+      description: Lists the videos and nested collections that belong to a collection.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: The collection's items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: addCollectionItem
+      tags: [Collections]
+      summary: Add a collection item
+      description: Adds a video or nested collection to the collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                  description: The video or collection ID or href to add.
+                position:
+                  type: integer
+                  description: Optional zero-based insertion position.
+              required: [item]
+      responses:
+        '200':
+          description: Item added.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: removeCollectionItem
+      tags: [Collections]
+      summary: Remove a collection item
+      description: Removes a video or nested collection from the collection.
+      parameters:
+        - name: item
+          in: query
+          required: true
+          description: The video or collection ID or href to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Item removed.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /collections/{id}/items/{item_id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+      - name: item_id
+        in: path
+        required: true
+        description: The ID of the item within the collection.
+        schema:
+          type: string
+    put:
+      operationId: repositionCollectionItem
+      tags: [Collections]
+      summary: Reposition a collection item
+      description: Updates the position of an item within the collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                position:
+                  type: integer
+                  description: The new zero-based position.
+              required: [position]
+      responses:
+        '200':
+          description: Item repositioned.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /authorizations:
+    post:
+      operationId: createAuthorization
+      tags: [Authorizations]
+      summary: Create a player authorization
+      description: >-
+        Generates a short-lived authorization token granting a specific customer
+        access to an embeddable video player, with configurable session token
+        expiration.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer:
+                  type: string
+                  description: The customer ID or href to authorize.
+                video:
+                  type: string
+                  description: The video ID or href to authorize playback for.
+                ttl:
+                  type: integer
+                  description: Session token time-to-live in seconds.
+              required: [customer, video]
+      responses:
+        '201':
+          description: The created authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  expires_at:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics:
+    get:
+      operationId: getAnalytics
+      tags: [Analytics]
+      summary: Retrieve analytics reports
+      description: >-
+        Retrieves performance reports for the OTT service, including traffic,
+        income, units sold, subscribers, churn, and per-video metrics.
+      parameters:
+        - name: report
+          in: query
+          description: The report type (e.g. traffic, income, units, subscribers, churn, videos).
+          required: false
+          schema:
+            type: string
+        - name: start
+          in: query
+          description: Start date (ISO 8601) for the reporting window.
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: end
+          in: query
+          description: End date (ISO 8601) for the reporting window.
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: The requested analytics report.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Supply your Vimeo OTT API key as the username and leave the password blank.
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: The page of results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    perPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (default 50).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+  responses:
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+    Links:
+      type: object
+      description: HAL hypermedia links.
+      additionalProperties: true
+    Pagination:
+      type: object
+      properties:
+        count:
+          type: integer
+        total:
+          type: integer
+        per_page:
+          type: integer
+        current_page:
+          type: integer
+        total_pages:
+          type: integer
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        thumbnail:
+          type: string
+        platform:
+          type: string
+        location:
+          type: string
+        subscription_status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    CustomerCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        product:
+          type: string
+          description: The product ID or href the customer is being created against.
+        password:
+          type: string
+      required: [name, email, product]
+    CustomerUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    CustomerList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            customers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          description: The access model, e.g. subscription, rental, or purchase.
+        price:
+          $ref: '#/components/schemas/Price'
+        created_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    ProductList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
+    Price:
+      type: object
+      properties:
+        currency:
+          type: string
+        cents:
+          type: integer
+        formatted:
+          type: string
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        duration:
+          type: integer
+        status:
+          type: string
+        thumbnail:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    VideoCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        collection:
+          type: string
+          description: Optional collection ID or href to place the video in.
+      required: [title]
+    VideoList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
+    VideoFile:
+      type: object
+      properties:
+        method:
+          type: string
+          description: Delivery method, e.g. hls or dash.
+        quality:
+          type: string
+        url:
+          type: string
+          format: uri
+    Collection:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          description: One of category, series, season, movie, or playlist.
+        position:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [category, series, season, movie, playlist]
+      required: [name, type]
+    CollectionList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            collections:
+              type: array
+              items:
+                $ref: '#/components/schemas/Collection'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'

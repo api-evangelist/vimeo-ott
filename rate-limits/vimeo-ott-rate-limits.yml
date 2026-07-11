@@ -1,0 +1,71 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Vimeo OTT
+providerId: vimeo-ott
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- OTT
+- Video
+- Streaming
+- Rate Limiting
+- Quotas
+description: >-
+  The Vimeo OTT (VHX) API reference documents a specific rate limit on customer
+  creation of roughly 5 requests per second, and returns HTTP 429 when a limit is
+  exceeded. The reference does not publish a single global numeric request-rate
+  limit for every endpoint; other endpoints are expected to be subject to fair-use
+  throttling. List endpoints are paginated at 50 items per page by default, which
+  bounds response size. Platform-level bandwidth and upload allowances (for
+  example, the Enterprise plan's 60TB bandwidth and 200 upload hours per month)
+  are quotas on the OTT service rather than API request-rate limits.
+notes: >-
+  The 5 requests/second figure is documented for the customer-creation endpoint;
+  treat it as endpoint-specific. Numeric per-account limits for other endpoints are
+  not published as of the review date. Implement exponential backoff with jitter
+  and honor 429 responses. Verify current limits in the live reference at
+  dev.vhx.tv.
+sources:
+- https://dev.vhx.tv/docs/api/
+- https://dev.vhx.tv/api/
+- https://vimeo.com/ott/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: Customer Creation
+  scope: account
+  metric: requests
+  limit: ~5 requests/second
+  notes: Documented rate limit on POST /customers in the VHX API reference.
+- name: General API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No single global numeric request-rate limit is documented for all endpoints; fair-use throttling applies.
+- name: Pagination Page Size
+  scope: request
+  metric: items
+  limit: 50 default
+  notes: List endpoints return up to 50 items per page by default.
+- name: Bandwidth Allowance
+  scope: account
+  metric: bytes
+  limit: per plan (e.g. 60TB/month on Enterprise)
+  notes: A platform quota on media delivery, not an API request-rate limit.
+- name: Upload Hours
+  scope: account
+  metric: hours
+  limit: per plan (e.g. 200 hours/month on Enterprise)
+  notes: A platform quota on content ingest, not an API request-rate limit.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor 429 (Too Many Requests) responses.
+- name: Pagination
+  description: Iterate large result sets via paginated list endpoints (50 per page by default) rather than large single requests.
+- name: Fair Use
+  description: Endpoints without a published numeric limit are subject to fair-use throttling; spread bursty writes such as customer creation across time.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

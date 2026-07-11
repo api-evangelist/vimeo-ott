@@ -1,0 +1,332 @@
+{
+  "info": {
+    "name": "Vimeo OTT API",
+    "description": "REST interface for managing a Vimeo OTT (formerly VHX) subscription video / OTT service - customers, products, videos, collections, watchlists, player authorizations, and analytics. Base URL: https://api.vhx.tv. Authentication is HTTP Basic Auth: supply your Vimeo OTT API key as the username and leave the password blank. API keys are created on the Platforms page of the Vimeo OTT CMS. Methods and paths are confirmed from the public reference at dev.vhx.tv; request bodies are modeled from documented examples.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "{{apiKey}}", "type": "string" },
+      { "key": "password", "value": "", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.vhx.tv", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "List customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] },
+            "description": "Lists all customers (subscribers). Paginated, 50 per page by default."
+          }
+        },
+        {
+          "name": "Create a customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Viewer\",\n  \"email\": \"jane@example.com\",\n  \"product\": \"https://api.vhx.tv/products/1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] },
+            "description": "Creates a new customer. Name, email, and a product reference are required. Rate limited to roughly 5 requests per second."
+          }
+        },
+        {
+          "name": "Retrieve a customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id", "host": ["{{baseUrl}}"], "path": ["customers", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single customer by ID."
+          }
+        },
+        {
+          "name": "Update a customer",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane V.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers/:id", "host": ["{{baseUrl}}"], "path": ["customers", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates a customer's information."
+          }
+        },
+        {
+          "name": "Grant product access",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"product\": \"https://api.vhx.tv/products/1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers/:id/products", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "products"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Grants the customer access to a product."
+          }
+        },
+        {
+          "name": "Revoke product access",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/products?product=https://api.vhx.tv/products/1", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "products"], "query": [{ "key": "product", "value": "https://api.vhx.tv/products/1" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Revokes the customer's access to a product."
+          }
+        },
+        {
+          "name": "Retrieve watchlist",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/watchlist", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "watchlist"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves the items a customer has saved to their watchlist."
+          }
+        },
+        {
+          "name": "Add to watchlist",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"item\": \"https://api.vhx.tv/videos/1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers/:id/watchlist", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "watchlist"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Adds a video or collection to the customer's watchlist."
+          }
+        },
+        {
+          "name": "Remove from watchlist",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/watchlist?item=https://api.vhx.tv/videos/1", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "watchlist"], "query": [{ "key": "item", "value": "https://api.vhx.tv/videos/1" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes an item from the customer's watchlist."
+          }
+        },
+        {
+          "name": "Retrieve in-progress videos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/watching", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "watching"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves the videos a customer has started but not finished, with playback position."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] },
+            "description": "Lists all products. Paginated, 50 per page by default."
+          }
+        },
+        {
+          "name": "Retrieve a product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/products/:id", "host": ["{{baseUrl}}"], "path": ["products", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single product by ID."
+          }
+        },
+        {
+          "name": "Retrieve product prices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/products/:id/prices", "host": ["{{baseUrl}}"], "path": ["products", ":id", "prices"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a product's prices across supported currencies."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Videos",
+      "item": [
+        {
+          "name": "List videos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/videos", "host": ["{{baseUrl}}"], "path": ["videos"] },
+            "description": "Lists all videos. Paginated, 50 per page by default."
+          }
+        },
+        {
+          "name": "Create a video",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Episode 1\",\n  \"description\": \"Pilot episode.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/videos", "host": ["{{baseUrl}}"], "path": ["videos"] },
+            "description": "Creates a new video record."
+          }
+        },
+        {
+          "name": "Retrieve a video",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/videos/:id", "host": ["{{baseUrl}}"], "path": ["videos", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single video by ID."
+          }
+        },
+        {
+          "name": "Update a video",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Episode 1 (Remastered)\"\n}" },
+            "url": { "raw": "{{baseUrl}}/videos/:id", "host": ["{{baseUrl}}"], "path": ["videos", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates a video's metadata."
+          }
+        },
+        {
+          "name": "Delete a video",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/videos/:id", "host": ["{{baseUrl}}"], "path": ["videos", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Deletes a video. Deletion is processed asynchronously."
+          }
+        },
+        {
+          "name": "Retrieve video files",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/videos/:id/files", "host": ["{{baseUrl}}"], "path": ["videos", ":id", "files"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves the playable adaptive-streaming file URLs for a video."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "List collections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/collections", "host": ["{{baseUrl}}"], "path": ["collections"] },
+            "description": "Lists all collections. Paginated, 50 per page by default."
+          }
+        },
+        {
+          "name": "Create a collection",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Season 1\",\n  \"type\": \"season\"\n}" },
+            "url": { "raw": "{{baseUrl}}/collections", "host": ["{{baseUrl}}"], "path": ["collections"] },
+            "description": "Creates a collection of type category, series, season, movie, or playlist."
+          }
+        },
+        {
+          "name": "Retrieve a collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/collections/:id", "host": ["{{baseUrl}}"], "path": ["collections", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single collection by ID."
+          }
+        },
+        {
+          "name": "Update a collection",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Season One\"\n}" },
+            "url": { "raw": "{{baseUrl}}/collections/:id", "host": ["{{baseUrl}}"], "path": ["collections", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates a collection's metadata."
+          }
+        },
+        {
+          "name": "Reorder a collection",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"position\": 0\n}" },
+            "url": { "raw": "{{baseUrl}}/collections/:id/update_position", "host": ["{{baseUrl}}"], "path": ["collections", ":id", "update_position"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates the position of the collection relative to its siblings."
+          }
+        },
+        {
+          "name": "List collection items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/collections/:id/items", "host": ["{{baseUrl}}"], "path": ["collections", ":id", "items"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists the videos and nested collections that belong to a collection."
+          }
+        },
+        {
+          "name": "Add a collection item",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"item\": \"https://api.vhx.tv/videos/1\"\n}" },
+            "url": { "raw": "{{baseUrl}}/collections/:id/items", "host": ["{{baseUrl}}"], "path": ["collections", ":id", "items"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Adds a video or nested collection to the collection."
+          }
+        },
+        {
+          "name": "Reposition a collection item",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"position\": 2\n}" },
+            "url": { "raw": "{{baseUrl}}/collections/:id/items/:item_id", "host": ["{{baseUrl}}"], "path": ["collections", ":id", "items", ":item_id"], "variable": [{ "key": "id", "value": "" }, { "key": "item_id", "value": "" }] },
+            "description": "Updates the position of an item within the collection."
+          }
+        },
+        {
+          "name": "Remove a collection item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/collections/:id/items?item=https://api.vhx.tv/videos/1", "host": ["{{baseUrl}}"], "path": ["collections", ":id", "items"], "query": [{ "key": "item", "value": "https://api.vhx.tv/videos/1" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Removes a video or nested collection from the collection."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authorizations",
+      "item": [
+        {
+          "name": "Create a player authorization",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"customer\": \"https://api.vhx.tv/customers/1\",\n  \"video\": \"https://api.vhx.tv/videos/1\",\n  \"ttl\": 3600\n}" },
+            "url": { "raw": "{{baseUrl}}/authorizations", "host": ["{{baseUrl}}"], "path": ["authorizations"] },
+            "description": "Generates a short-lived authorization token granting a customer access to an embeddable player."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Retrieve analytics reports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/analytics?report=subscribers", "host": ["{{baseUrl}}"], "path": ["analytics"], "query": [{ "key": "report", "value": "subscribers" }] },
+            "description": "Retrieves performance reports - traffic, income, units, subscribers, churn, and per-video metrics."
+          }
+        }
+      ]
+    }
+  ]
+}
