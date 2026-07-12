@@ -164,6 +164,12 @@ apis:
   description: Retrieve performance reports for an OTT service, including traffic,
     income, units sold, subscribers, churn, and per-video metrics.
 common:
+- type: VulnerabilityDisclosure
+  url: security/vimeo-ott-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/vimeo-ott-domain-security.yml
+- type: Authentication
+  url: authentication/vimeo-ott-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/vimeo
 - type: Website

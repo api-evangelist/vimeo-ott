@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/vimeo-ott-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Auth. Supply your Vimeo OTT API key as the username and leave the
+    password blank.
+  sources:
+  - openapi/vimeo-ott-openapi.yml
