@@ -164,6 +164,8 @@ apis:
   description: Retrieve performance reports for an OTT service, including traffic,
     income, units sold, subscribers, churn, and per-video metrics.
 common:
+- type: AgenticAccess
+  url: agentic-access/vimeo-ott-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/vimeo-ott-vulnerability-disclosure.yml
 - type: DomainSecurity
