@@ -1,0 +1,268 @@
+openapi: 3.0.3
+info:
+  title: Vimeo OTT Analytics Videos API
+  description: 'The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.
+
+    Scope note - HTTP methods and paths are confirmed from the public reference at dev.vhx.tv. Request and response field-level schemas below are modeled from the documented examples and generalized where the reference documents fields by example rather than as a formal schema.'
+  version: '1.0'
+  contact:
+    name: Vimeo OTT Developers
+    url: https://dev.vhx.tv/docs/api/
+servers:
+- url: https://api.vhx.tv
+  description: Vimeo OTT (VHX) API
+security:
+- basicAuth: []
+tags:
+- name: Videos
+  description: Transcoded content items and their playable file URLs.
+paths:
+  /videos:
+    get:
+      operationId: listVideos
+      tags:
+      - Videos
+      summary: List videos
+      description: Lists all videos. Paginated, 50 per page by default.
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A paginated list of videos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVideo
+      tags:
+      - Videos
+      summary: Create a video
+      description: Creates a new video record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoCreate'
+      responses:
+        '201':
+          description: The created video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /videos/{id}:
+    parameters:
+    - $ref: '#/components/parameters/id'
+    get:
+      operationId: getVideo
+      tags:
+      - Videos
+      summary: Retrieve a video
+      description: Retrieves a single video by ID.
+      responses:
+        '200':
+          description: The requested video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateVideo
+      tags:
+      - Videos
+      summary: Update a video
+      description: Updates a video's metadata.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoCreate'
+      responses:
+        '200':
+          description: The updated video.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteVideo
+      tags:
+      - Videos
+      summary: Delete a video
+      description: Deletes a video. Deletion is processed asynchronously.
+      responses:
+        '202':
+          description: Deletion accepted and processing asynchronously.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{id}/files:
+    parameters:
+    - $ref: '#/components/parameters/id'
+    get:
+      operationId: getVideoFiles
+      tags:
+      - Videos
+      summary: Retrieve video files
+      description: Retrieves the playable adaptive-streaming file URLs for a video.
+      responses:
+        '200':
+          description: The video's playable files.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VideoFile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    VideoList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      description: HAL hypermedia links.
+      additionalProperties: true
+    VideoFile:
+      type: object
+      properties:
+        method:
+          type: string
+          description: Delivery method, e.g. hls or dash.
+        quality:
+          type: string
+        url:
+          type: string
+          format: uri
+    VideoCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        collection:
+          type: string
+          description: Optional collection ID or href to place the video in.
+      required:
+      - title
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        duration:
+          type: integer
+        status:
+          type: string
+        thumbnail:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (default 50).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: The page of results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  responses:
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Supply your Vimeo OTT API key as the username and leave the password blank.

@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: Vimeo OTT Analytics API
+  description: 'The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.
+
+    Scope note - HTTP methods and paths are confirmed from the public reference at dev.vhx.tv. Request and response field-level schemas below are modeled from the documented examples and generalized where the reference documents fields by example rather than as a formal schema.'
+  version: '1.0'
+  contact:
+    name: Vimeo OTT Developers
+    url: https://dev.vhx.tv/docs/api/
+servers:
+- url: https://api.vhx.tv
+  description: Vimeo OTT (VHX) API
+security:
+- basicAuth: []
+tags:
+- name: Analytics
+  description: Performance reports for the OTT service.
+paths:
+  /analytics:
+    get:
+      operationId: getAnalytics
+      tags:
+      - Analytics
+      summary: Retrieve analytics reports
+      description: Retrieves performance reports for the OTT service, including traffic, income, units sold, subscribers, churn, and per-video metrics.
+      parameters:
+      - name: report
+        in: query
+        description: The report type (e.g. traffic, income, units, subscribers, churn, videos).
+        required: false
+        schema:
+          type: string
+      - name: start
+        in: query
+        description: Start date (ISO 8601) for the reporting window.
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: end
+        in: query
+        description: End date (ISO 8601) for the reporting window.
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: The requested analytics report.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Supply your Vimeo OTT API key as the username and leave the password blank.
