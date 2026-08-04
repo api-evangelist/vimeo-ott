@@ -1,0 +1,24 @@
+{
+  "provider": "vimeo-ott",
+  "sources": [
+    "vimeo-ott-analytics-api-openapi.yml",
+    "vimeo-ott-authorizations-api-openapi.yml",
+    "vimeo-ott-collections-api-openapi.yml",
+    "vimeo-ott-customers-api-openapi.yml",
+    "vimeo-ott-products-api-openapi.yml",
+    "vimeo-ott-videos-api-openapi.yml"
+  ],
+  "outputs": [
+    "vimeo-ott-analytics-api-openapi.yml",
+    "vimeo-ott-authorizations-api-openapi.yml",
+    "vimeo-ott-collections-api-openapi.yml",
+    "vimeo-ott-customers-api-openapi.yml",
+    "vimeo-ott-products-api-openapi.yml",
+    "vimeo-ott-videos-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
