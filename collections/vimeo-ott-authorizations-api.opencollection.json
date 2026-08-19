@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics Authorizations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authorizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a player authorization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/authorizations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a short-lived authorization token granting a specific customer access to an embeddable video player, with configurable session token expiration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

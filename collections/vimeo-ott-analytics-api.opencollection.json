@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve analytics reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/analytics",
+            "params": [
+              {
+                "name": "report",
+                "value": "",
+                "type": "query",
+                "description": "The report type (e.g. traffic, income, units, subscribers, churn, videos)."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start date (ISO 8601) for the reporting window."
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End date (ISO 8601) for the reporting window."
+              }
+            ]
+          },
+          "docs": "Retrieves performance reports for the OTT service, including traffic, income, units sold, subscribers, churn, and per-video metrics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

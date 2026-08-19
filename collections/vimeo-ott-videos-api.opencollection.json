@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics Videos API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Videos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/videos",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to return."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (default 50)."
+              }
+            ]
+          },
+          "docs": "Lists all videos. Paginated, 50 per page by default."
+        },
+        {
+          "info": {
+            "name": "Create a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/videos",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new video record."
+        },
+        {
+          "info": {
+            "name": "Retrieve a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single video by ID."
+        },
+        {
+          "info": {
+            "name": "Update a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a video's metadata."
+        },
+        {
+          "info": {
+            "name": "Delete a video",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/videos/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Deletes a video. Deletion is processed asynchronously."
+        },
+        {
+          "info": {
+            "name": "Retrieve video files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/videos/:id/files",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves the playable adaptive-streaming file URLs for a video."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

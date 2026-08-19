@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics Products API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/products",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to return."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (default 50)."
+              }
+            ]
+          },
+          "docs": "Lists all products. Paginated, 50 per page by default."
+        },
+        {
+          "info": {
+            "name": "Retrieve a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single product by ID."
+        },
+        {
+          "info": {
+            "name": "Retrieve product prices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/products/:id/prices",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a product's prices across supported currencies."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics Customers API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to return."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (default 50)."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter customers by email address."
+              }
+            ]
+          },
+          "docs": "Lists all customers (subscribers). Paginated, 50 per page by default."
+        },
+        {
+          "info": {
+            "name": "Create a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/customers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new customer. Name, email, and a product reference are required. Rate limited to roughly 5 requests per second."
+        },
+        {
+          "info": {
+            "name": "Retrieve a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single customer by ID."
+        },
+        {
+          "info": {
+            "name": "Update a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a customer's information."
+        },
+        {
+          "info": {
+            "name": "Grant product access",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id/products",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grants the customer access to a product."
+        },
+        {
+          "info": {
+            "name": "Revoke product access",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/customers/:id/products",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              },
+              {
+                "name": "product",
+                "value": "",
+                "type": "query",
+                "description": "The product ID or href to revoke."
+              }
+            ]
+          },
+          "docs": "Revokes the customer's access to a product."
+        },
+        {
+          "info": {
+            "name": "Retrieve a customer's watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves the items a customer has saved to their watchlist."
+        },
+        {
+          "info": {
+            "name": "Add to watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a video or collection to the customer's watchlist."
+        },
+        {
+          "info": {
+            "name": "Remove from watchlist",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/customers/:id/watchlist",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              },
+              {
+                "name": "item",
+                "value": "",
+                "type": "query",
+                "description": "The video or collection ID or href to remove."
+              }
+            ]
+          },
+          "docs": "Removes an item from the customer's watchlist."
+        },
+        {
+          "info": {
+            "name": "Retrieve in-progress videos",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/customers/:id/watching",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves the videos a customer has started but not finished, with playback position."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

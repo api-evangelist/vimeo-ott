@@ -1,0 +1,238 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vimeo OTT Analytics Collections API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/collections",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to return."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (default 50)."
+              }
+            ]
+          },
+          "docs": "Lists all collections. Paginated, 50 per page by default."
+        },
+        {
+          "info": {
+            "name": "Create a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.vhx.tv/collections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a collection of type category, series, season, movie, or playlist."
+        },
+        {
+          "info": {
+            "name": "Retrieve a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/collections/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single collection by ID."
+        },
+        {
+          "info": {
+            "name": "Update a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a collection's metadata."
+        },
+        {
+          "info": {
+            "name": "Reorder a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/update_position",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the position of the collection relative to its siblings."
+        },
+        {
+          "info": {
+            "name": "List collection items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page of results to return."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results per page (default 50)."
+              }
+            ]
+          },
+          "docs": "Lists the videos and nested collections that belong to a collection."
+        },
+        {
+          "info": {
+            "name": "Add a collection item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a video or nested collection to the collection."
+        },
+        {
+          "info": {
+            "name": "Remove a collection item",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.vhx.tv/collections/:id/items",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              },
+              {
+                "name": "item",
+                "value": "",
+                "type": "query",
+                "description": "The video or collection ID or href to remove."
+              }
+            ]
+          },
+          "docs": "Removes a video or nested collection from the collection."
+        },
+        {
+          "info": {
+            "name": "Reposition a collection item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.vhx.tv/collections/:id/items/:item_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID."
+              },
+              {
+                "name": "item_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the item within the collection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the position of an item within the collection."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

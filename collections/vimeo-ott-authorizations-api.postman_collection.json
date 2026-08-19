@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "0e3e8b9c-48f1-4d11-9d9a-95a2c3bfff1e",
+      "name": "Authorizations",
+      "description": {
+        "content": "Short-lived tokens granting a customer access to the embeddable player.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c24f5a99-d602-46c4-9108-3e9f806b9ea8",
+          "name": "Create a player authorization",
+          "request": {
+            "name": "Create a player authorization",
+            "description": {
+              "content": "Generates a short-lived authorization token granting a specific customer access to an embeddable video player, with configurable session token expiration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authorizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer\": \"<string>\",\n  \"video\": \"<string>\",\n  \"ttl\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b3ddc9d6-c67e-4b97-8449-43c8d2a59aae",
+              "name": "The created authorization token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": \"<string>\",\n  \"video\": \"<string>\",\n  \"ttl\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\",\n  \"expires_at\": \"1961-01-07T09:28:59.540Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c94c1dfc-aa87-47db-a83c-91f31c7caade",
+              "name": "The request was malformed or missing required fields.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": \"<string>\",\n  \"video\": \"<string>\",\n  \"ttl\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "644abf68-8a5a-47af-9348-725de0b5797c",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authorizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": \"<string>\",\n  \"video\": \"<string>\",\n  \"ttl\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.vhx.tv",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9658425e-3456-48d1-8b9a-7a5d0745248b",
+    "name": "Vimeo OTT Analytics Authorizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.\nScope note - HTTP methods and paths are confirmed from the public reference at dev.vhx.tv. Request and response field-level schemas below are modeled from the documented examples and generalized where the reference documents fields by example rather than as a formal schema.\n\nContact Support:\n Name: Vimeo OTT Developers",
+      "type": "text/plain"
+    }
+  }
+}

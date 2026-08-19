@@ -1,0 +1,211 @@
+{
+  "item": [
+    {
+      "id": "9f397144-6bc2-440e-aceb-6944181b3e9f",
+      "name": "Analytics",
+      "description": {
+        "content": "Performance reports for the OTT service.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e2920494-caed-40c8-aead-0ecf1c601f65",
+          "name": "Retrieve analytics reports",
+          "request": {
+            "name": "Retrieve analytics reports",
+            "description": {
+              "content": "Retrieves performance reports for the OTT service, including traffic, income, units sold, subscribers, churn, and per-video metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "report",
+                  "value": "<string>",
+                  "description": "The report type (e.g. traffic, income, units, subscribers, churn, videos)."
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<date>",
+                  "description": "Start date (ISO 8601) for the reporting window."
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<date>",
+                  "description": "End date (ISO 8601) for the reporting window."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9b84814a-7256-44d7-9833-0e25f476c713",
+              "name": "The requested analytics report.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": true,\n  \"key_2\": 6602,\n  \"key_3\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69af203f-923b-4490-9e23-b7248e1f8f63",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end",
+                      "value": "<date>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.vhx.tv",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "acf9c140-d80d-41f1-8194-8a38a5332c2e",
+    "name": "Vimeo OTT Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.\nScope note - HTTP methods and paths are confirmed from the public reference at dev.vhx.tv. Request and response field-level schemas below are modeled from the documented examples and generalized where the reference documents fields by example rather than as a formal schema.\n\nContact Support:\n Name: Vimeo OTT Developers",
+      "type": "text/plain"
+    }
+  }
+}
