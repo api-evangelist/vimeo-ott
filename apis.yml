@@ -31,6 +31,14 @@ tags:
 - SVOD
 - Streaming
 - Media
+- Subscription
+- VHX
+tags_raw:
+- OTT
+- Video
+- SVOD
+- Streaming
+- Media
 - Subscriptions
 - VHX
 created: '2026-07-11'
@@ -83,6 +91,8 @@ apis:
   humanURL: https://dev.vhx.tv/docs/api/
   baseURL: https://api.vhx.tv
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -123,6 +133,8 @@ apis:
   humanURL: https://dev.vhx.tv/docs/api/
   baseURL: https://api.vhx.tv
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
