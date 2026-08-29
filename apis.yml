@@ -11,6 +11,18 @@ description: Vimeo OTT (formerly VHX) is a subscription video / over-the-top (OT
   and analytics. The API is publicly documented at dev.vhx.tv and uses HTTP Basic
   authentication with an API key generated from the Vimeo OTT CMS; the platform
   itself is a paid product (Starter and Enterprise plans).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
