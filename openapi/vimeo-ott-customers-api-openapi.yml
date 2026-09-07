@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Vimeo OTT Analytics Customers API
   description: 'The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.
@@ -237,30 +237,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    VideoList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            videos:
-              type: array
-              items:
-                $ref: '#/components/schemas/Video'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
-    CustomerUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
     Customer:
       type: object
       properties:
@@ -285,6 +261,37 @@ components:
         updated_at:
           type: string
           format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+    CustomerUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    CustomerList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            customers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+        count:
+          type: integer
+        total:
+          type: integer
         _links:
           $ref: '#/components/schemas/Links'
     Links:
@@ -314,6 +321,22 @@ components:
           format: date-time
         _links:
           $ref: '#/components/schemas/Links'
+    VideoList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
     CustomerCreate:
       type: object
       properties:
@@ -331,29 +354,31 @@ components:
       - name
       - email
       - product
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        error:
-          type: string
-    CustomerList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            customers:
-              type: array
-              items:
-                $ref: '#/components/schemas/Customer'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     perPage:
       name: per_page
@@ -381,31 +406,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http

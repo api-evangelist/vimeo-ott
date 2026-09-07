@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Vimeo OTT Analytics Collections API
   description: 'The Vimeo OTT API (formerly the VHX API) is a REST interface for managing a branded subscription video / over-the-top (OTT) service. It lets media companies manage customers (subscribers), products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, embeddable-player authorizations, comments, live events, and analytics. All access is over HTTPS; requests and responses are JSON using the HAL hypermedia convention (_links, _embedded). Authentication is HTTP Basic Auth with a Vimeo OTT API key supplied as the username and a blank password; keys are generated on the Platforms page of the Vimeo OTT CMS.
@@ -232,53 +232,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    perPage:
-      name: per_page
-      in: query
-      required: false
-      description: The number of results per page (default 50).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 50
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
-    page:
-      name: page
-      in: query
-      required: false
-      description: The page of results to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Collection:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          description: One of category, series, season, movie, or playlist.
+        position:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        _links:
+          $ref: '#/components/schemas/Links'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
     Links:
       type: object
       description: HAL hypermedia links.
@@ -317,32 +297,52 @@ components:
           type: integer
         _links:
           $ref: '#/components/schemas/Links'
-    Collection:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          description: One of category, series, season, movie, or playlist.
-        position:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        _links:
-          $ref: '#/components/schemas/Links'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        error:
-          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: The page of results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    perPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (default 50).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
   securitySchemes:
     basicAuth:
       type: http

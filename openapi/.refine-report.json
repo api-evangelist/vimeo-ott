@@ -19,6 +19,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "vimeo-ott-analytics-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "vimeo-ott-authorizations-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "vimeo-ott-collections-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "vimeo-ott-customers-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "vimeo-ott-products-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "vimeo-ott-videos-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }
