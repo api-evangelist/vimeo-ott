@@ -84,6 +84,8 @@ apis:
   humanURL: https://dev.vhx.tv/docs/api/
   baseURL: https://api.vhx.tv
   tags:
+  - Authorization
+  tags_raw:
   - Authorizations
   properties:
   - type: OpenAPI
@@ -168,6 +170,8 @@ apis:
   humanURL: https://dev.vhx.tv/docs/api/
   baseURL: https://api.vhx.tv
   tags:
+  - Video
+  tags_raw:
   - Videos
   properties:
   - type: OpenAPI
