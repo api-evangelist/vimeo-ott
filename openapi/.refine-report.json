@@ -1,12 +1,7 @@
 {
   "provider": "vimeo-ott",
   "sources": [
-    "vimeo-ott-analytics-api-openapi.yml",
-    "vimeo-ott-authorizations-api-openapi.yml",
-    "vimeo-ott-collections-api-openapi.yml",
-    "vimeo-ott-customers-api-openapi.yml",
-    "vimeo-ott-products-api-openapi.yml",
-    "vimeo-ott-videos-api-openapi.yml"
+    "_original/vimeo-ott-openapi.yml"
   ],
   "outputs": [
     "vimeo-ott-analytics-api-openapi.yml",
@@ -20,13 +15,16 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "vimeo-ott-analytics-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "vimeo-ott-authorizations-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "vimeo-ott-collections-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "vimeo-ott-customers-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "vimeo-ott-products-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "vimeo-ott-videos-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "vimeo-ott-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "vimeo-ott-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vimeo-ott-authorizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vimeo-ott-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vimeo-ott-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vimeo-ott-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vimeo-ott-videos-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
