@@ -234,32 +234,23 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    CustomerList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            customers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
     Error:
       type: object
       properties:
@@ -267,14 +258,26 @@ components:
           type: string
         error:
           type: string
-    CustomerUpdate:
+    Links:
+      type: object
+      description: HAL hypermedia links.
+      additionalProperties: true
+    VideoList:
       type: object
       properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
     Customer:
       type: object
       properties:
@@ -301,10 +304,6 @@ components:
           format: date-time
         _links:
           $ref: '#/components/schemas/Links'
-    Links:
-      type: object
-      description: HAL hypermedia links.
-      additionalProperties: true
     Video:
       type: object
       properties:
@@ -328,6 +327,14 @@ components:
           format: date-time
         _links:
           $ref: '#/components/schemas/Links'
+    CustomerUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
     CustomerCreate:
       type: object
       properties:
@@ -345,48 +352,7 @@ components:
       - name
       - email
       - product
-    VideoList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            videos:
-              type: array
-              items:
-                $ref: '#/components/schemas/Video'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
-    CustomerList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            customers:
-              type: array
-              items:
-                $ref: '#/components/schemas/Customer'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
   parameters:
-    page:
-      name: page
-      in: query
-      required: false
-      description: The page of results to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
     perPage:
       name: per_page
       in: query
@@ -397,6 +363,15 @@ components:
         minimum: 1
         maximum: 100
         default: 50
+    page:
+      name: page
+      in: query
+      required: false
+      description: The page of results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
     id:
       name: id
       in: path
@@ -404,6 +379,31 @@ components:
       description: The resource ID.
       schema:
         type: string
+  responses:
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http
