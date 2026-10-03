@@ -230,7 +230,79 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      required: false
+      description: The number of results per page (default 50).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: The page of results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+    CollectionCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+          - category
+          - series
+          - season
+          - movie
+          - playlist
+      required:
+      - name
+      - type
+    Links:
+      type: object
+      description: HAL hypermedia links.
+      additionalProperties: true
+    CollectionList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            collections:
+              type: array
+              items:
+                $ref: '#/components/schemas/Collection'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
     Collection:
       type: object
       properties:
@@ -250,87 +322,15 @@ components:
           format: date-time
         _links:
           $ref: '#/components/schemas/Links'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        error:
-          type: string
-    Links:
-      type: object
-      description: HAL hypermedia links.
-      additionalProperties: true
-    CollectionCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          enum:
-          - category
-          - series
-          - season
-          - movie
-          - playlist
-      required:
-      - name
-      - type
-    CollectionList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            collections:
-              type: array
-              items:
-                $ref: '#/components/schemas/Collection'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
-  parameters:
-    perPage:
-      name: per_page
-      in: query
-      required: false
-      description: The number of results per page (default 50).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 50
-    page:
-      name: page
-      in: query
-      required: false
-      description: The page of results to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
   responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    BadRequest:
+      description: The request was malformed or missing required fields.
       content:
         application/json:
           schema:

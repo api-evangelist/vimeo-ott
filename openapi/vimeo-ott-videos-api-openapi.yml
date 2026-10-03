@@ -150,6 +150,13 @@ components:
         minimum: 1
         maximum: 100
         default: 50
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
     page:
       name: page
       in: query
@@ -159,32 +166,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -208,22 +189,6 @@ components:
         url:
           type: string
           format: uri
-    VideoList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            videos:
-              type: array
-              items:
-                $ref: '#/components/schemas/Video'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
     Video:
       type: object
       properties:
@@ -259,6 +224,41 @@ components:
           description: Optional collection ID or href to place the video in.
       required:
       - title
+    VideoList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http
