@@ -60,14 +60,14 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    BadRequest:
+      description: The request was malformed or missing required fields.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or missing required fields.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

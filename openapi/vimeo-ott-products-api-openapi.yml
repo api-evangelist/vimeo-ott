@@ -91,13 +91,6 @@ components:
         minimum: 1
         maximum: 100
         default: 50
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
     page:
       name: page
       in: query
@@ -107,13 +100,22 @@ components:
         type: integer
         minimum: 1
         default: 1
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
   schemas:
-    Error:
+    Price:
       type: object
       properties:
-        message:
+        currency:
           type: string
-        error:
+        cents:
+          type: integer
+        formatted:
           type: string
     Product:
       type: object
@@ -134,6 +136,17 @@ components:
           format: date-time
         _links:
           $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      description: HAL hypermedia links.
+      additionalProperties: true
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
     ProductList:
       type: object
       properties:
@@ -150,28 +163,15 @@ components:
           type: integer
         _links:
           $ref: '#/components/schemas/Links'
-    Links:
-      type: object
-      description: HAL hypermedia links.
-      additionalProperties: true
-    Price:
-      type: object
-      properties:
-        currency:
-          type: string
-        cents:
-          type: integer
-        formatted:
-          type: string
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
