@@ -187,6 +187,9 @@ apis:
   - type: Documentation
     url: https://dev.vhx.tv/player/
 common:
+- type: CapabilityMap
+  url: capabilities/vimeo-ott-capability-edges.yml
+  name: Vimeo OTT Business Capability Map
 - type: AgenticAccess
   url: agentic-access/vimeo-ott-agentic-access.yml
 - type: VulnerabilityDisclosure
