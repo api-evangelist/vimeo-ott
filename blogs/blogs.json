@@ -1,0 +1,21 @@
+{
+  "repo": "vimeo-ott",
+  "feeds": [
+    {
+      "source": "https://vimeo.com/blog",
+      "feed_url": "https://vimeo.com/blog/feed.xml",
+      "title": "",
+      "saved": 3,
+      "method": "discovered"
+    },
+    {
+      "source": "https://vimeo.com/blog/feed.xml",
+      "feed_url": "https://vimeo.com/blog/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    }
+  ],
+  "post_count": 3,
+  "fetched": "2026-10-10T13:15:00Z"
+}
