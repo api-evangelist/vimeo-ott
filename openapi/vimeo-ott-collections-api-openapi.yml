@@ -230,6 +230,25 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required fields.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     CollectionCreate:
       type: object
@@ -295,26 +314,14 @@ components:
       type: object
       description: HAL hypermedia links.
       additionalProperties: true
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required fields.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
     perPage:
       name: per_page
       in: query
@@ -334,13 +341,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http

@@ -140,6 +140,34 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    VideoCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        collection:
+          type: string
+          description: Optional collection ID or href to place the video in.
+      required:
+      - title
+    VideoList:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            videos:
+              type: array
+              items:
+                $ref: '#/components/schemas/Video'
+        count:
+          type: integer
+        total:
+          type: integer
+        _links:
+          $ref: '#/components/schemas/Links'
     Video:
       type: object
       properties:
@@ -174,34 +202,6 @@ components:
         url:
           type: string
           format: uri
-    VideoList:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            videos:
-              type: array
-              items:
-                $ref: '#/components/schemas/Video'
-        count:
-          type: integer
-        total:
-          type: integer
-        _links:
-          $ref: '#/components/schemas/Links'
-    VideoCreate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        collection:
-          type: string
-          description: Optional collection ID or href to place the video in.
-      required:
-      - title
     Error:
       type: object
       properties:
@@ -214,6 +214,12 @@ components:
       description: HAL hypermedia links.
       additionalProperties: true
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was malformed or missing required fields.
       content:
@@ -226,13 +232,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource ID.
+      schema:
+        type: string
     perPage:
       name: per_page
       in: query
@@ -252,13 +259,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource ID.
-      schema:
-        type: string
   securitySchemes:
     basicAuth:
       type: http
