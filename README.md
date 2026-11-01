@@ -1,4 +1,4 @@
-# Vimeo OTT (vimeo-ott)
+# Vimeo OTT
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,174 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Vimeo OTT (formerly **VHX**) is a subscription video / over-the-top (OTT) platform for launching branded SVOD, TVOD, and live streaming services across web, mobile, and connected-TV apps. Its documented REST API at `https://api.vhx.tv` lets media companies programmatically manage customers, products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, player authorizations, comments, live events, and analytics.
+Vimeo OTT (formerly VHX) is a subscription video / over-the-top (OTT) platform for launching branded SVOD, TVOD, and live streaming services across web, mobile, and connected-TV apps. Its documented REST API at api.vhx.tv lets media companies programmatically manage customers, products (subscription, rental, and purchase access agreements), videos, and collections (categories, series, seasons, movies, playlists), plus watchlists, player authorizations, comments, live events, and analytics. The API is publicly documented at dev.vhx.tv and uses HTTP Basic authentication with an API key generated from the Vimeo OTT CMS; the platform itself is a paid product (Starter and Enterprise plans).
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/vimeo-ott/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/vimeo-ott/refs/heads/main/apis.yml)
+**Areas:** OTT · Video · SVOD · Streaming · Media · Subscription · VHX
 
-## Access Model
+## Vimeo OTT on APIs.io
 
-- The API is **publicly documented** at [dev.vhx.tv](https://dev.vhx.tv/docs/api/) — the reference is open to read without an account.
-- **Authentication** is HTTP **Basic Auth**: your Vimeo OTT API key is supplied as the username and the password is left blank. API keys are created on the **Platforms** page of your Vimeo OTT CMS.
-- Using the API in practice requires a **paid Vimeo OTT account** (Starter or Enterprise). The API is a management surface for an OTT service you operate on the platform — there is no free, standalone, self-serve API product. In that sense the useful API is **plan-gated behind an OTT subscription**, even though the docs are public.
-- All access is over **HTTPS**; requests and responses are **JSON**, using the HAL hypermedia convention (`_links`, `_embedded`). Timestamps are ISO 8601 (UTC), encoding is UTF-8, and JSONP is supported via a `?callback=` parameter.
-- List endpoints are **paginated** (default 50 items per page).
+Everything profiled for Vimeo OTT is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/vimeo-ott/](https://apis.io/providers/vimeo-ott/)** — or go straight to one of the APIs or properties below.
 
-The endpoints documented here are **confirmed from the live public API reference** (methods and paths). The bundled OpenAPI and collection artifacts **model the request/response schemas** where the reference documents fields by example rather than as a formal schema; those bodies are flagged as modeled.
+### APIs (6)
 
-## Tags
+- [Vimeo OTT Analytics API](https://apis.io/apis/vimeo-ott/vimeo-ott-analytics-api/) — Performance reports for the OTT service.
+- [Vimeo OTT Authorizations API](https://apis.io/apis/vimeo-ott/vimeo-ott-authorizations-api/) — Short-lived tokens granting a customer access to the embeddable player.
+- [Vimeo OTT Collections API](https://apis.io/apis/vimeo-ott/vimeo-ott-collections-api/) — Categories, series, seasons, movies, and playlists, and their items.
+- [Vimeo OTT Customers API](https://apis.io/apis/vimeo-ott/vimeo-ott-customers-api/) — Subscribers, their product access, watchlists, and in-progress viewing.
+- [Vimeo OTT Products API](https://apis.io/apis/vimeo-ott/vimeo-ott-products-api/) — Access agreements (subscription, rental, purchase) and their prices.
+- [Vimeo OTT Videos API](https://apis.io/apis/vimeo-ott/vimeo-ott-videos-api/) — Transcoded content items and their playable file URLs.
 
-- OTT
-- Video
-- SVOD
-- Streaming
-- Media
-- Subscriptions
-- VHX
+### Published properties
 
-## Timestamps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Created:** 2026-07-11
-- **Modified:** 2026-07-11
+#### Agentic access (1)
 
-## APIs
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Vimeo OTT Customers API
+- [Vimeo Ott Agentic Access](https://apis.io/agentic-access/vimeo-ott/vimeo-ott-agentic-access/)
 
-Create, retrieve, list, and update customers (subscribers), grant and revoke per-product access, and manage each customer's watchlist and in-progress "watching" list. Customer-scoped requests are made with the `VHX-Customer` and `VHX-Client-IP` headers.
+#### Collections (7)
 
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
+Postman and Open Collection request collections.
 
-#### Tags
+- [Vimeo OTT API](https://apis.io/collections/vimeo-ott/open-vimeo-ott/)
+- [Vimeo OTT Analytics API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-analytics-api/)
+- [Vimeo OTT Analytics Authorizations API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-authorizations-api/)
+- [Vimeo OTT Analytics Collections API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-collections-api/)
+- [Vimeo OTT Analytics Customers API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-customers-api/)
+- [Vimeo OTT Analytics Products API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-products-api/)
+- [Vimeo OTT Analytics Videos API](https://apis.io/collections/vimeo-ott/open-vimeo-ott-videos-api/)
 
-- Customers
-- Subscribers
-- Watchlist
+#### Security (3)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [API Reference](https://dev.vhx.tv/docs/api/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
+- [Vimeo Ott Authentication](https://apis.io/security/vimeo-ott/vimeo-ott-authentication/)
+- [Vimeo Ott Domain Security](https://apis.io/security/vimeo-ott/vimeo-ott-domain-security/)
+- [Vimeo Ott Vulnerability Disclosure](https://apis.io/security/vimeo-ott/vimeo-ott-vulnerability-disclosure/)
 
-### Vimeo OTT Products API
+#### Plans and pricing (1)
 
-Retrieve and list products — the access agreements (subscription, rental, or purchase) that bundle videos and collections — and fetch a product's prices across multiple currencies.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
+- [Vimeo Ott Plans Pricing](https://apis.io/plans/vimeo-ott/vimeo-ott-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Products
-- Access
-- Pricing
+Published request limits.
 
-#### Properties
+- [Vimeo Ott Rate Limits](https://apis.io/rate-limits/vimeo-ott/vimeo-ott-rate-limits/)
 
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [API Reference](https://dev.vhx.tv/docs/api/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
+#### FinOps (1)
 
-### Vimeo OTT Videos API
+What the API costs to run, by operation.
 
-Create, retrieve, list, update, and delete videos, and access the playable adaptive-streaming file URLs for a video. Videos are the transcoded content items surfaced through the OTT storefront and player.
+- [Vimeo Ott Finops](https://apis.io/finops/vimeo-ott/vimeo-ott-finops/)
 
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Videos
-- Files
-- Content
-
-#### Properties
-
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [API Reference](https://dev.vhx.tv/docs/api/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
-
-### Vimeo OTT Collections API
-
-Create, retrieve, list, and update collections — categories, series, seasons, movies, and playlists — and manage their items, including adding, removing, and repositioning videos and nested collections, plus reordering the collection itself.
-
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
-
-#### Tags
-
-- Collections
-- Series
-- Playlists
-
-#### Properties
-
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [API Reference](https://dev.vhx.tv/docs/api/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
-
-### Vimeo OTT Authorizations API
-
-Generate short-lived authorization tokens that grant a specific customer access to an embeddable video player, with configurable session token expiration.
-
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
-
-#### Tags
-
-- Authorizations
-- Player
-- Embed
-
-#### Properties
-
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [Player Documentation](https://dev.vhx.tv/player/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
-
-### Vimeo OTT Analytics API
-
-Retrieve performance reports for an OTT service, including traffic, income, units sold, subscribers, churn, and per-video metrics.
-
-- **Human URL:** [https://dev.vhx.tv/docs/api/](https://dev.vhx.tv/docs/api/)
-- **Base URL:** `https://api.vhx.tv`
-
-#### Tags
-
-- Analytics
-- Reporting
-- Metrics
-
-#### Properties
-
-- [Documentation](https://dev.vhx.tv/docs/api/)
-- [API Reference](https://dev.vhx.tv/docs/api/)
-- [OpenAPI](openapi/vimeo-ott-openapi.yml)
-- [Postman Collection](collections/vimeo-ott.postman_collection.json)
-- [Open Collection](collections/vimeo-ott.opencollection.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/vimeo)
 - [Website](https://vimeo.com/ott)
 - [Documentation](https://dev.vhx.tv/docs/api/)
-- [GitHub Organization](https://github.com/vhx)
-- [Plans](plans/vimeo-ott-plans-pricing.yml)
-- [Rate Limits](rate-limits/vimeo-ott-rate-limits.yml)
-- [Fin Ops](finops/vimeo-ott-finops.yml)
+- [Blog](https://vimeo.com/blog)
+- [GitHub](https://github.com/vhx)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 28.6** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 54.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 5.3 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 17.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/vimeo-ott/](https://apis.io/providers/vimeo-ott/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Vimeo OTT: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/vimeo-ott/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
